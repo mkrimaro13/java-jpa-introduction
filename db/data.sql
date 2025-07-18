@@ -1,12 +1,48 @@
--- Por la forma en la que se lleva el curso es mejor primero ejecutar el Java/Spring y luego ejecutar estas sentencias, ya que las relaciones se crean desde allí.
+CREATE DATABASE if not exists pizzeria;
 
--- TRUNCATE TABLES
-SET FOREIGN_KEY_CHECKS = 0;
-TRUNCATE `pizzeria`.`order_item`;
-TRUNCATE `pizzeria`.`pizza_order`;
-TRUNCATE `pizzeria`.`customer`;
-TRUNCATE `pizzeria`.`pizza`;
-SET FOREIGN_KEY_CHECKS = 1;
+USE pizzeria;
+
+CREATE TABLE customer (
+    id_customer VARCHAR(255) NOT NULL,
+    name VARCHAR(60) NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id_customer)
+);
+
+CREATE TABLE pizza (
+    id_pizza INT AUTO_INCREMENT NOT NULL,
+    name VARCHAR(30) NOT NULL UNIQUE,
+    description VARCHAR(150) NOT NULL,
+    price DECIMAL(5,2) NOT NULL,
+    vegetarian TINYINT,
+    vegan TINYINT,
+    available INT NOT NULL,
+    PRIMARY KEY (id_pizza)
+);
+
+CREATE TABLE pizza_order (
+    id_order INT AUTO_INCREMENT NOT NULL,
+    id_customer VARCHAR(15) NOT NULL,
+    date DATETIME NOT NULL,
+    total DECIMAL(6,2) NOT NULL,
+    method CHAR(1) NOT NULL,
+    additional_notes VARCHAR(200),
+    PRIMARY KEY (id_order),
+    CONSTRAINT FK_Orden_Cliente FOREIGN KEY (id_customer) REFERENCES customer(id_customer)
+);
+
+CREATE TABLE order_item (
+    id_order INT NOT NULL,
+    id_item INT NOT NULL,
+    id_pizza INT NOT NULL,
+    quantity DECIMAL(2,1) NOT NULL,
+    price DECIMAL(5,2) NOT NULL,
+    PRIMARY KEY (id_order, id_item),
+    CONSTRAINT FK_OrdenItem_Pizza FOREIGN KEY (id_pizza) REFERENCES pizza(id_pizza),
+    CONSTRAINT FK_OrdenItem_Orden FOREIGN KEY (id_order) REFERENCES pizza_order(id_order)
+);
 
 -- INSERT CUSTOMERS
 INSERT INTO `pizzeria`.`customer` (`id_customer`, `name`, `address`, `email`, `phone_number`)
