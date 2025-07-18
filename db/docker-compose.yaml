@@ -5,9 +5,9 @@
 
 # composer
 services:
-  mysql:
+  database:
     image: mysql:8.0
-    container_name: mysql-test-my_database
+    container_name: mysql-test-database
     hostname: database
     restart: no
     environment:
@@ -19,6 +19,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
 
 volumes:
   mysql_data:
