@@ -20,7 +20,7 @@ public class Pizza {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pizza", nullable = false)
-    private Long id;
+    private Integer id;
     @Column(nullable = false, length = 30, unique = true)
     private String name;
     @Column(nullable = false, length = 150, unique = true)

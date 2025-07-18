@@ -2,6 +2,7 @@ package co.com.marimaro.pizzeria.persistance.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
@@ -37,11 +38,21 @@ public class OrderItem {
     private Double price;
 
     @OneToOne
-    @JoinColumn(name = "id_pizza", referencedColumnName = "id_pizza", insertable = false, updatable = false)
+    @JoinColumn(
+        name = "id_pizza", 
+        referencedColumnName = "id_pizza", 
+        foreignKey = @ForeignKey(name = "FK_OrdenItem_Pizza"), 
+        insertable = false, 
+        updatable = false)
     private Pizza pizza;
 
     @ManyToOne
-    @JoinColumn(name = "id_order", referencedColumnName = "id_order", insertable = false, updatable = false)
+    @JoinColumn(
+        name = "id_order", 
+        referencedColumnName = "id_order", 
+        foreignKey = @ForeignKey(name = "FK_OrdenItem_Orden"), 
+        insertable = false, 
+        updatable = false)
     private Order order;
 
 }
