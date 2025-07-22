@@ -22,7 +22,24 @@ public class PizzaService {
         return repository.findAllByAvailable(0);
     }
 
-    public Optional<Pizza> getById(Integer id){
+    public Optional<Pizza> getById(Integer id) {
         return repository.findById(id);
+    }
+
+    public Pizza create(Pizza pizza) {
+        return repository.save(pizza);
+    }
+
+    public Boolean exists(Integer id) {
+        return repository.existsById(id);
+    }
+
+    public Boolean delete(int id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return true;
+        } else{
+            return false;
+        }
     }
 }
