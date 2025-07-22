@@ -18,8 +18,24 @@ public class PizzaService {
         return repository.findAll();
     }
 
+    public List<Pizza> getAvailableByName(String name) {
+        return repository.findAllByAvailableTrueAndNameContainingIgnoreCase(name);
+    }
+
+    public List<Pizza> getAvailableWithIngredients(String ingredient) {
+        return repository.findAllByAvailableTrueAndDescriptionContainingIgnoreCase(ingredient);
+    }
+
+    public List<Pizza> getAvailableWithoutIngredients(String ingredient) {
+        return repository.findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(ingredient);
+    }
+
     public List<Pizza> getNoAvailable() {
         return repository.findAllByAvailable(0);
+    }
+
+    public List<Pizza> getAvailable() {
+        return repository.findAllByAvailableTrueOrderByPrice();
     }
 
     public Optional<Pizza> getById(Integer id) {
@@ -38,7 +54,7 @@ public class PizzaService {
         if (repository.existsById(id)) {
             repository.deleteById(id);
             return true;
-        } else{
+        } else {
             return false;
         }
     }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.marimaro.pizzeria.persistance.entity.Pizza;
@@ -33,6 +34,28 @@ public class PizzaController {
     @GetMapping("/no-available")
     public ResponseEntity<List<Pizza>> getNoAvailable() {
         return ResponseEntity.ok(service.getNoAvailable());
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<Pizza>> getAvailable() {
+        return ResponseEntity.ok(service.getAvailable());
+    }
+
+    @GetMapping("/available/{name}")
+    public ResponseEntity<List<Pizza>> getAvailableByName(@PathVariable("name") String name) {
+        return ResponseEntity.ok(service.getAvailableByName(name));
+    }
+
+    @GetMapping("/available/with")
+    public ResponseEntity<List<Pizza>> getAvailableWithIngredients(
+            @RequestParam(name = "ingredients") String ingredients) {
+        return ResponseEntity.ok(service.getAvailableWithIngredients(ingredients));
+    }
+
+    @GetMapping("/available/without")
+    public ResponseEntity<List<Pizza>> getAvailableWithoutIngredients(
+            @RequestParam(name = "ingredients") String ingredients) {
+        return ResponseEntity.ok(service.getAvailableWithoutIngredients(ingredients));
     }
 
     @GetMapping("/{id}")
@@ -65,10 +88,10 @@ public class PizzaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEntity(@PathVariable("id") int id){
-        if(service.delete(id)){
+    public ResponseEntity<?> deleteEntity(@PathVariable("id") int id) {
+        if (service.delete(id)) {
             return ResponseEntity.ok().body(Map.of("Detalle", "Pizza eliminada"));
-        }else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
