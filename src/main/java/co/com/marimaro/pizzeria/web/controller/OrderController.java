@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import co.com.marimaro.pizzeria.persistance.entity.Order;
 import co.com.marimaro.pizzeria.service.OrderService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
