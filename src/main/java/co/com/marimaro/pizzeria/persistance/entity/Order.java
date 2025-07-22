@@ -3,8 +3,11 @@ package co.com.marimaro.pizzeria.persistance.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,16 +41,13 @@ public class Order {
     @Column(name = "additional_notes", length = 200)
     private String notes;
 
-    @OneToOne
-    @JoinColumn(
-        name = "id_customer",
-        referencedColumnName = "id_customer",
-        foreignKey = @ForeignKey(name = "FK_Orden_Cliente"),
-        insertable = false,
-        updatable = false
-    )
+    @OneToOne(fetch = FetchType.LAZY) // Indica que no debe cargar la relación hasta que no sea necesaria (en este
+                                      // caso con la etiqueta JsonIgnore, no la trae)
+    @JoinColumn(name = "id_customer", referencedColumnName = "id_customer", foreignKey = @ForeignKey(name = "FK_Orden_Cliente"), insertable = false, updatable = false)
+    @JsonIgnore
     private Customer customer;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER) // Eager hace lo contrario, prioriza la recuperación de
+                                                            // estos registros.
     private List<OrderItem> orderItems;
 }
