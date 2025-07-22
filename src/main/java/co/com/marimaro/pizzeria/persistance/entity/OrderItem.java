@@ -1,5 +1,7 @@
 package co.com.marimaro.pizzeria.persistance.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
@@ -53,6 +55,7 @@ public class OrderItem {
         foreignKey = @ForeignKey(name = "FK_OrdenItem_Orden"), 
         insertable = false, 
         updatable = false)
+    @JsonIgnore // Se previene el llamado circular infinito, que Order llame a OrderItem y viceversa. Otra solución es tener un DTO.
     private Order order;
 
 }
