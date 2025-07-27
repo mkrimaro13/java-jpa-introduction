@@ -1,6 +1,7 @@
 package co.com.marimaro.pizzeria.persistance.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.repository.ListCrudRepository;
 
@@ -12,4 +13,8 @@ public interface PizzaRepository extends ListCrudRepository<Pizza,Integer>{
     List<Pizza> findAllByAvailableTrueAndNameContainingIgnoreCase(String name);  //Para ignore entre mayúsculas y minúsculas
     List<Pizza> findAllByAvailableTrueAndDescriptionContainingIgnoreCase(String description);
     List<Pizza> findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(String description);
+
+    Optional<Pizza> findFirstByAvailableTrueAndNameContainingIgnoreCase(String name);
+    List<Pizza> findTop3ByAvailableTrueAndPriceLessThanEqualOrderByPriceAsc(double price);
+
 }

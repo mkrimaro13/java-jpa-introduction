@@ -58,4 +58,12 @@ public class PizzaService {
             return false;
         }
     }
+
+    public Optional<Pizza> getFirstByName(String name){
+        return repository.findFirstByAvailableTrueAndNameContainingIgnoreCase(name);
+    }
+
+    public List<Pizza> get3FirstsLowerPrice(double price){
+        return repository.findTop3ByAvailableTrueAndPriceLessThanEqualOrderByPriceAsc(price);
+    }
 }

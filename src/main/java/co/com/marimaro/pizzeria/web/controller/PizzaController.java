@@ -46,6 +46,18 @@ public class PizzaController {
         return ResponseEntity.ok(service.getAvailableByName(name));
     }
 
+    @GetMapping("/first-available/{name}")
+    public ResponseEntity<Pizza> getFirstAvailableByName(@PathVariable("name") String name) {
+        return service.getFirstByName(name)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/available/price-lower-than/{price}")
+    public ResponseEntity<List<Pizza>> get3FirstsLowerPriceThan(@PathVariable("price") double price) {
+        return ResponseEntity.ok(service.get3FirstsLowerPrice(price));
+    }
+
     @GetMapping("/available/with")
     public ResponseEntity<List<Pizza>> getAvailableWithIngredients(
             @RequestParam(name = "ingredients") String ingredients) {
