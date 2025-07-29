@@ -4,9 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import co.com.marimaro.pizzeria.persistance.entity.Pizza;
+import co.com.marimaro.pizzeria.persistance.repository.PizzaPagSortRepository;
 import co.com.marimaro.pizzeria.persistance.repository.PizzaRepository;
 
 @Service
@@ -14,6 +19,9 @@ public class PizzaService {
     @Autowired
     private PizzaRepository repository;
 
+    @Autowired
+    private PizzaPagSortRepository pagSortRepository;
+    
     public List<Pizza> getAll() {
         return repository.findAll();
     }
@@ -65,5 +73,16 @@ public class PizzaService {
 
     public List<Pizza> get3FirstsLowerPrice(double price){
         return repository.findTop3ByAvailableTrueAndPriceLessThanEqualOrderByPriceAsc(price);
+    }
+
+    public Page<Pizza> getAllPaginatedSorted(int page, int pageSize){
+        Pageable pageRequested = PageRequest.of(page, pageSize);
+        return pagSortRepository.findAll(pageRequested);
+    }
+
+    public Page<Pizza> getAllAvailableSorted(int page, int pageSize, String sortBy, String order){
+        Sort sort = Sort.by(Sort.Direction.fromString(order), sortBy);
+        Pageable pageRequested = PageRequest.of(page, pageSize, sort);
+        return pagSortRepository.findAllByAvailableTrue(pageRequested);
     }
 }

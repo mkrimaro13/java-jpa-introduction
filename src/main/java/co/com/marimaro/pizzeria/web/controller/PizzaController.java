@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -107,4 +108,21 @@ public class PizzaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<Pizza>> getAllPizzaPaged(
+            @RequestParam(defaultValue = "0", name = "page") int page,
+            @RequestParam(defaultValue = "5", name = "page_size") int size) {
+        return ResponseEntity.ok(service.getAllPaginatedSorted(page, size));
+    }
+
+    @GetMapping("/page/sorted")
+    public ResponseEntity<Page<Pizza>> getAllAvailablePizzaPagedSorted(
+            @RequestParam(defaultValue = "0", name = "page") int page,
+            @RequestParam(defaultValue = "5", name = "page_size") int size,
+            @RequestParam(defaultValue = "price", name = "sort_by") String sortBy,
+            @RequestParam(defaultValue = "asc", name = "order") String order) {
+        return ResponseEntity.ok(service.getAllAvailableSorted(page, size, sortBy, order));
+    }
+
 }
