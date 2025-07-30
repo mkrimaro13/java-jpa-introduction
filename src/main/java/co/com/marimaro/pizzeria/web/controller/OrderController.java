@@ -2,6 +2,7 @@ package co.com.marimaro.pizzeria.web.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,10 @@ public class OrderController {
     public ResponseEntity<List<Order>> getAllByMethod(
             @RequestParam(name = "methods", required = true) List<String> methods) {
         return ResponseEntity.ok().body(service.getByMethod(methods));
+    }
+
+    @GetMapping("/by-customer/{customerId}")
+    public ResponseEntity<List<Order>> getCustomerOrder(@PathVariable("customerId") String customerId) {
+        return service.getCustomerOrders(customerId).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

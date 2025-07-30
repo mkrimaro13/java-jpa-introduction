@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,9 @@ public class OrderService {
 
     public List<Order> getByMethod(List<String> methods){
         return repository.findAllByMethodIn(methods);
+    }
+
+    public Optional<List<Order>> getCustomerOrders(String customerId){
+        return repository.findCustomerOrders(customerId);
     }
 }
