@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.marimaro.pizzeria.persistance.entity.Pizza;
 import co.com.marimaro.pizzeria.service.PizzaService;
+import co.com.marimaro.pizzeria.service.dto.UpdatePizzaPriceDTO;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -123,6 +124,16 @@ public class PizzaController {
             @RequestParam(defaultValue = "price", name = "sort_by") String sortBy,
             @RequestParam(defaultValue = "asc", name = "order") String order) {
         return ResponseEntity.ok(service.getAllAvailableSorted(page, size, sortBy, order));
+    }
+
+    @PutMapping("/modify/update-price")
+    public ResponseEntity<Void> updatePrice(@RequestBody UpdatePizzaPriceDTO dto) {
+        if(service.exists(dto.getId())){
+            service.updatePrice(dto);
+            return ResponseEntity.ok().build();
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

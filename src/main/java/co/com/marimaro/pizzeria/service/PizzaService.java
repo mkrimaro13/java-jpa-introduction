@@ -9,10 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.com.marimaro.pizzeria.persistance.entity.Pizza;
 import co.com.marimaro.pizzeria.persistance.repository.PizzaPagSortRepository;
 import co.com.marimaro.pizzeria.persistance.repository.PizzaRepository;
+import co.com.marimaro.pizzeria.service.dto.UpdatePizzaPriceDTO;
 
 @Service
 public class PizzaService {
@@ -84,5 +86,10 @@ public class PizzaService {
         Sort sort = Sort.by(Sort.Direction.fromString(order), sortBy);
         Pageable pageRequested = PageRequest.of(page, pageSize, sort);
         return pagSortRepository.findAllByAvailableTrue(pageRequested);
+    }
+
+    @Transactional
+    public void updatePrice(UpdatePizzaPriceDTO dto){
+        repository.updatePrice(dto);
     }
 }
