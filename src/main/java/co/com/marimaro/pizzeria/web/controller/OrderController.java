@@ -2,7 +2,6 @@ package co.com.marimaro.pizzeria.web.controller;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.marimaro.pizzeria.persistance.entity.Order;
+import co.com.marimaro.pizzeria.persistance.projection.OrderSummary;
 import co.com.marimaro.pizzeria.service.OrderService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +46,13 @@ public class OrderController {
 
     @GetMapping("/by-customer/{customerId}")
     public ResponseEntity<List<Order>> getCustomerOrder(@PathVariable("customerId") String customerId) {
-        return service.getCustomerOrders(customerId).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return service.getCustomerOrders(customerId).map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/summary/{orderId}")
+    public ResponseEntity<OrderSummary> getSummary(@PathVariable("orderId") Integer orderId) {
+        return ResponseEntity.ok(service.getSummary(orderId));
+    }
+
 }
