@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.com.marimaro.pizzeria.persistance.entity.Pizza;
@@ -23,7 +24,7 @@ public class PizzaService {
 
     @Autowired
     private PizzaPagSortRepository pagSortRepository;
-    
+
     public List<Pizza> getAll() {
         return repository.findAll();
     }
@@ -69,27 +70,38 @@ public class PizzaService {
         }
     }
 
-    public Optional<Pizza> getFirstByName(String name){
+    public Optional<Pizza> getFirstByName(String name) {
         return repository.findFirstByAvailableTrueAndNameContainingIgnoreCase(name);
     }
 
-    public List<Pizza> get3FirstsLowerPrice(double price){
+    public List<Pizza> get3FirstsLowerPrice(double price) {
         return repository.findTop3ByAvailableTrueAndPriceLessThanEqualOrderByPriceAsc(price);
     }
 
-    public Page<Pizza> getAllPaginatedSorted(int page, int pageSize){
+    public Page<Pizza> getAllPaginatedSorted(int page, int pageSize) {
         Pageable pageRequested = PageRequest.of(page, pageSize);
         return pagSortRepository.findAll(pageRequested);
     }
 
-    public Page<Pizza> getAllAvailableSorted(int page, int pageSize, String sortBy, String order){
+    public Page<Pizza> getAllAvailableSorted(int page, int pageSize, String sortBy, String order) {
         Sort sort = Sort.by(Sort.Direction.fromString(order), sortBy);
         Pageable pageRequested = PageRequest.of(page, pageSize, sort);
         return pagSortRepository.findAllByAvailableTrue(pageRequested);
     }
 
     @Transactional
-    public void updatePrice(UpdatePizzaPriceDTO dto){
+    public void updatePrice(UpdatePizzaPriceDTO dto) {
         repository.updatePrice(dto);
     }
+
+    @Transactional(noRollbackFor = EmailAPIException.class, propagation = Propagation.MANDATORY)
+    public void updatePriceWithError(UpdatePizzaPriceDTO dto) {
+        repository.updatePrice(dto);
+        sendEmail();
+    }
+
+    private void sendEmail() {
+        throw new EmailAPIException();
+    }
+
 }

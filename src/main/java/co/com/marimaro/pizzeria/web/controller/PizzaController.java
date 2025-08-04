@@ -128,10 +128,20 @@ public class PizzaController {
 
     @PutMapping("/modify/update-price")
     public ResponseEntity<Void> updatePrice(@RequestBody UpdatePizzaPriceDTO dto) {
-        if(service.exists(dto.getId())){
+        if (service.exists(dto.getId())) {
             service.updatePrice(dto);
             return ResponseEntity.ok().build();
-        }else{
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/modify/update-price/exception")
+    public ResponseEntity<Void> updatePriceException(@RequestBody UpdatePizzaPriceDTO dto) {
+        if (service.exists(dto.getId())) {
+            service.updatePriceWithError(dto);
+            return ResponseEntity.ok().build();
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
