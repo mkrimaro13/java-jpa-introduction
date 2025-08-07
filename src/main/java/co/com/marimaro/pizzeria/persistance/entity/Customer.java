@@ -1,19 +1,18 @@
 package co.com.marimaro.pizzeria.persistance.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "customer")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Customer {
+@EntityListeners(AuditingEntityListener.class)
+public class Customer extends AuditableEntity{
     @Id
     @Column(name = "id_customer",nullable = false)
     private String id;

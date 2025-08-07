@@ -9,13 +9,15 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "pizza_order")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Order {
+@EntityListeners(AuditingEntityListener.class)
+public class Order extends AuditableEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order", nullable = false)

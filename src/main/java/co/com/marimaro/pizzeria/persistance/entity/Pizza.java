@@ -1,7 +1,15 @@
 package co.com.marimaro.pizzeria.persistance.entity;
 
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,11 +20,12 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "pizza")
+@EntityListeners(AuditingEntityListener.class) // Esta entidad será auditada, se agregarán campos de fecha de creación y fecha de actualización
 // En este caso se usan getter y setter porque no usará modelo de dominio.
 @Getter
 @Setter
 @NoArgsConstructor
-public class Pizza {
+public class Pizza extends AuditableEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pizza", nullable = false)
