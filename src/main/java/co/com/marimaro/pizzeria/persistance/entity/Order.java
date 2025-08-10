@@ -3,6 +3,7 @@ package co.com.marimaro.pizzeria.persistance.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import co.com.marimaro.pizzeria.audit.AuditableEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -17,7 +18,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Setter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Order extends AuditableEntity{
+public class Order extends AuditableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order", nullable = false)

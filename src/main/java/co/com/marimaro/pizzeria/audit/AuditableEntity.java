@@ -1,4 +1,4 @@
-package co.com.marimaro.pizzeria.persistance.entity;
+package co.com.marimaro.pizzeria.audit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;

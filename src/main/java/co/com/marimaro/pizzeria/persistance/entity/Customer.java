@@ -1,5 +1,6 @@
 package co.com.marimaro.pizzeria.persistance.entity;
 
+import co.com.marimaro.pizzeria.audit.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Setter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Customer extends AuditableEntity{
+public class Customer extends AuditableEntity {
     @Id
     @Column(name = "id_customer",nullable = false)
     private String id;

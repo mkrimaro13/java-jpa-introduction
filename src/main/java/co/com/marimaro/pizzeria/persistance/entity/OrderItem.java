@@ -1,5 +1,6 @@
 package co.com.marimaro.pizzeria.persistance.entity;
 
+import co.com.marimaro.pizzeria.audit.AuditableEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Setter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class OrderItem extends AuditableEntity{
+public class OrderItem extends AuditableEntity {
 
     @Id
     @Column(name = "id_Order", nullable = false)

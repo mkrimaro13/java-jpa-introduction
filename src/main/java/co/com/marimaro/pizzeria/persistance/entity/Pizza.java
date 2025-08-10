@@ -1,10 +1,7 @@
 package co.com.marimaro.pizzeria.persistance.entity;
 
-import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import co.com.marimaro.pizzeria.audit.AuditPizzaListener;
+import co.com.marimaro.pizzeria.audit.AuditableEntity;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -18,14 +15,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "pizza")
-@EntityListeners(AuditingEntityListener.class) // Esta entidad será auditada, se agregarán campos de fecha de creación y fecha de actualización
-// En este caso se usan getter y setter porque no usará modelo de dominio.
+@EntityListeners({AuditingEntityListener.class, AuditPizzaListener.class})
 @Getter
 @Setter
 @NoArgsConstructor
-public class Pizza extends AuditableEntity{
+public class Pizza extends AuditableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pizza", nullable = false)
@@ -42,4 +40,17 @@ public class Pizza extends AuditableEntity{
     private Boolean vegan;
     @Column(nullable = false)
     private Integer available;
+
+    @Override
+    public String toString() {
+        return "Pizza{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", vegetarian=" + vegetarian +
+                ", vegan=" + vegan +
+                ", available=" + available +
+                '}';
+    }
 }
