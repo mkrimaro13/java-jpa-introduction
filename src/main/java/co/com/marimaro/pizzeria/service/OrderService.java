@@ -9,10 +9,12 @@ import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.com.marimaro.pizzeria.persistance.entity.Order;
 import co.com.marimaro.pizzeria.persistance.projection.OrderSummary;
 import co.com.marimaro.pizzeria.persistance.repository.OrderRepository;
+import co.com.marimaro.pizzeria.service.dto.RandomOrderDTO;
 
 @Service
 public class OrderService {
@@ -33,15 +35,20 @@ public class OrderService {
         return repository.findAllByDateBefore(dateFormatter.apply(date));
     }
 
-    public List<Order> getByMethod(List<String> methods){
+    public List<Order> getByMethod(List<String> methods) {
         return repository.findAllByMethodIn(methods);
     }
 
-    public Optional<List<Order>> getCustomerOrders(String customerId){
+    public Optional<List<Order>> getCustomerOrders(String customerId) {
         return repository.findCustomerOrders(customerId);
     }
 
-    public OrderSummary getSummary(int orderId){
+    public OrderSummary getSummary(int orderId) {
         return repository.findOrderSummary(orderId);
+    }
+
+    @Transactional
+    public boolean saveRandomOrder(RandomOrderDTO roDTO) {
+        return repository.saveRandomOrder(roDTO.getIdCustomer(), roDTO.getMethod());
     }
 }

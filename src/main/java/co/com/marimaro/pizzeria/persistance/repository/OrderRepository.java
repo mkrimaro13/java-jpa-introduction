@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import co.com.marimaro.pizzeria.persistance.entity.Order;
 import co.com.marimaro.pizzeria.persistance.projection.OrderSummary;
-
-import org.springframework.data.repository.query.Param;
 
 public interface OrderRepository extends ListCrudRepository<Order, Integer> {
         List<Order> findAllByDateAfter(LocalDateTime date);
@@ -32,4 +32,7 @@ public interface OrderRepository extends ListCrudRepository<Order, Integer> {
                         GROUP BY po.id_order,cu.name,po.date,po.total
                         """, nativeQuery = true)
         OrderSummary findOrderSummary(@Param("orderId") int orderId);
+
+        @Procedure(value = "take_random_pizza_order", outputParameterName = "order_taken")
+        boolean saveRandomOrder(@Param("id_customer") String customerId, @Param("method") String method);
 }

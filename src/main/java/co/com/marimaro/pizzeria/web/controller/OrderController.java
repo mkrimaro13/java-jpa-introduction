@@ -2,6 +2,7 @@ package co.com.marimaro.pizzeria.web.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import co.com.marimaro.pizzeria.persistance.entity.Order;
 import co.com.marimaro.pizzeria.persistance.projection.OrderSummary;
 import co.com.marimaro.pizzeria.service.OrderService;
+import co.com.marimaro.pizzeria.service.dto.RandomOrderDTO;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/orders")
@@ -54,5 +59,17 @@ public class OrderController {
     public ResponseEntity<OrderSummary> getSummary(@PathVariable("orderId") Integer orderId) {
         return ResponseEntity.ok(service.getSummary(orderId));
     }
+
+    @PostMapping("/create/random")
+    public ResponseEntity<Map<String,String>> postCreateRandomOrder(@RequestBody RandomOrderDTO roDTO) {
+        boolean orderTaken = service.saveRandomOrder(roDTO);
+        if(orderTaken){
+            return ResponseEntity.ok(Map.of("Detalle", "Orden creada"));
+        }else{
+            return ResponseEntity.badRequest().body(Map.of("Detalle", "Orden creada"));
+        }
+        
+    }
+    
 
 }
