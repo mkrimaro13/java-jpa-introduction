@@ -16,11 +16,14 @@ spring:
         "[format_sql]": true
         ddl-auto: update # Crea las tablas a partir de las clases en el proyecto (si es necesario)
         jdbc:
-            lob:
-                non-contextual-creation: true
+          lob:
+            non-contextual-creation: true
 logging:
   level:
     org:
+      springframework:
+        security:
+          web: DEBUG
       hibernate:
         sql: DEBUG
         type:
