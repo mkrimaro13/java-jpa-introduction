@@ -2,6 +2,15 @@ CREATE DATABASE if not exists pizzeria;
 
 USE pizzeria;
 
+CREATE TABLE user(
+    username VARCHAR(20) NOT NULL,
+    password VARCHAR(200) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    locked TINYINT NOT NULL,
+    disabled TINYINT NOT NULL,
+    PRIMARY KEY(username)
+);
+
 CREATE TABLE customer (
     id_customer VARCHAR(255) NOT NULL,
     name VARCHAR(60) NOT NULL,
@@ -43,6 +52,12 @@ CREATE TABLE order_item (
     CONSTRAINT FK_OrdenItem_Pizza FOREIGN KEY (id_pizza) REFERENCES pizza(id_pizza),
     CONSTRAINT FK_OrdenItem_Orden FOREIGN KEY (id_order) REFERENCES pizza_order(id_order)
 );
+
+-- INSERT USERS
+INSERT INTO user(username, disabled, email, locked, password)
+VALUES
+('admin', false, 'admin@platzi.com', false, '$2y$10$N0Ja6VH3eleQy6vI9i/gw.SVSrFahBpYnYmt/zK30wSqmi30Qh4XW'),
+('customer', false, 'customer@platzi.com', false, '$2y$10$cnrogv23vBbZ9xA1lq0GFO6deKEPxZ8iPROYgF4ipU.WdcYEWGLjO');
 
 -- INSERT CUSTOMERS
 INSERT INTO `pizzeria`.`customer` (`id_customer`, `name`, `address`, `email`, `phone_number`)
