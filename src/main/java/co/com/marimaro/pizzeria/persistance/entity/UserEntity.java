@@ -9,7 +9,7 @@ import lombok.Data;
 @Entity
 @Table(name = "user")
 @Data
-public class User {
+public class UserEntity {
     @Id
     @Column(nullable = false, length = 20)
     private String username;
@@ -24,5 +24,5 @@ public class User {
     private Boolean locked;
 
     @Column(nullable =  false, columnDefinition = "TINYINT")
-    private Boolean disable;
+    private Boolean disabled;
 }
