@@ -22,7 +22,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(customizer -> customizer
-                        .requestMatchers(HttpMethod.GET, "/pizzas/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/pizzas/**").hasAnyRole("ADMIN","CUSTOMER")
+                        .requestMatchers(HttpMethod.POST, "/pizzas/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/pizzas/**").hasRole("ADMIN")
+                        .requestMatchers("/orders/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
         return httpSecurity.build(); //
@@ -38,7 +41,14 @@ public class SecurityConfig {
                 .roles("ADMIN")
                 .build();
         // Teniendo este usuario Spring dejará de crear un usuario por defecto
-        return new InMemoryUserDetailsManager(admin);
+
+        UserDetails customer = User.builder()
+                .username("customer")
+                .password(passwordEncoder().encode("customer"))
+                .roles("CUSTOMER")
+                .build();
+
+        return new InMemoryUserDetailsManager(admin, customer);
     }
 
     @Bean
