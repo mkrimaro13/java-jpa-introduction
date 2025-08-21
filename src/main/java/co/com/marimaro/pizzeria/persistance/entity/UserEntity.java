@@ -1,8 +1,12 @@
 package co.com.marimaro.pizzeria.persistance.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -25,4 +29,7 @@ public class UserEntity {
 
     @Column(nullable =  false, columnDefinition = "TINYINT")
     private Boolean disabled;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<UserRole> roles;
 }
