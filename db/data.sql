@@ -11,6 +11,14 @@ CREATE TABLE user(
     PRIMARY KEY(username)
 );
 
+CREATE TABLE user_role(
+    username VARCHAR(20) NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    granted_date DATETIME,
+    disabled TINYINT,
+    PRIMARY KEY(username, role)
+);
+
 CREATE TABLE customer (
     id_customer VARCHAR(255) NOT NULL,
     name VARCHAR(60) NOT NULL,
@@ -58,6 +66,13 @@ INSERT INTO user(username, disabled, email, locked, password)
 VALUES
 ('admin', false, 'admin@platzi.com', false, '$2y$10$N0Ja6VH3eleQy6vI9i/gw.SVSrFahBpYnYmt/zK30wSqmi30Qh4XW'),
 ('customer', false, 'customer@platzi.com', false, '$2y$10$cnrogv23vBbZ9xA1lq0GFO6deKEPxZ8iPROYgF4ipU.WdcYEWGLjO');
+
+
+-- INSERT USER ROLES
+INSERT INTO user_role (username, role, granted_date, disabled)
+VALUES 
+('admin','ADMIN',NOW(), false), ('customer','CUSTOMER',NOW(), false);
+
 
 -- INSERT CUSTOMERS
 INSERT INTO `pizzeria`.`customer` (`id_customer`, `name`, `address`, `email`, `phone_number`)
