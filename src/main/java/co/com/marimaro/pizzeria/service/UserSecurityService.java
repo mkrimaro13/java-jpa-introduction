@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import co.com.marimaro.pizzeria.persistance.entity.UserEntity;
+import co.com.marimaro.pizzeria.persistance.entity.UserRole;
 import co.com.marimaro.pizzeria.persistance.repository.UserRepository;
 
 @Service
@@ -21,9 +22,13 @@ public class UserSecurityService implements UserDetailsService {
         UserEntity user = userRepository.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + "no ha sido encontrado"));
 
+        String[] roles = user.getRoles()
+                .stream().map(UserRole::getRole)
+                .toArray(String[]::new);
+
         return User.builder()
                 .username(user.getUsername()).password(user.getPassword())
-                .roles("ADMIN")
+                .roles(roles)
                 .accountLocked(user.getLocked())
                 .disabled(user.getDisabled())
                 .build();
