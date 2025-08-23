@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +40,7 @@ public class OrderService {
         return repository.findAllByMethodIn(methods);
     }
 
+    @Secured("ROLE_ADMIN")
     public Optional<List<Order>> getCustomerOrders(String customerId) {
         return repository.findCustomerOrders(customerId);
     }

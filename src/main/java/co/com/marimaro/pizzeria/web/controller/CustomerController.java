@@ -1,7 +1,10 @@
 package co.com.marimaro.pizzeria.web.controller;
 
 import co.com.marimaro.pizzeria.persistance.entity.Customer;
+import co.com.marimaro.pizzeria.persistance.entity.Order;
 import co.com.marimaro.pizzeria.service.CustomerService;
+import co.com.marimaro.pizzeria.service.OrderService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +19,11 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     private CustomerService service;
+    @Autowired
+    private OrderService ordersService;
 
     @GetMapping("")
-    public ResponseEntity<List<Customer>> getAll(){
+    public ResponseEntity<List<Customer>> getAll() {
         return ResponseEntity.ok(service.getAll());
     }
 
@@ -28,4 +33,11 @@ public class CustomerController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/orders/by-id/{id}")
+    public ResponseEntity<List<Order>> getCustomerOrders(@PathVariable("id") String id) {
+        return ordersService.getCustomerOrders(id).map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }
