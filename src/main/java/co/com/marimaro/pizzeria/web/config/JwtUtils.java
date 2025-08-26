@@ -10,11 +10,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 @Component
 public class JwtUtils {
-    private static String SECRET_KEY;
-    private static Algorithm ALGORITHM;
+    private static final Algorithm ALGORITHM;
 
     static {
-        SECRET_KEY = "m4r1m4r0_p1zz4";
+        String SECRET_KEY = "m4r1m4r0_p1zz4";
         ALGORITHM = Algorithm.HMAC256(SECRET_KEY);
     }
 
