@@ -3,6 +3,7 @@ package co.com.marimaro.pizzeria.web.config;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
@@ -24,5 +25,24 @@ public class JwtUtils {
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(15)))
                 .sign(ALGORITHM);
+    }
+
+    public boolean validate(String jwt) {
+        try {
+            JWT.require(ALGORITHM)
+                    .build()
+                    .verify(jwt);
+            return true;
+        } catch (JWTVerificationException e) {
+            // throw new RuntimeException(e);
+            return false;
+        }
+    }
+
+    public String getJwtSubject(String jwt) {
+        return JWT.require(ALGORITHM)
+                .build()
+                .verify(jwt)
+                .getSubject();
     }
 }
