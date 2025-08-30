@@ -27,7 +27,7 @@ public class JwtUtils {
                 .sign(ALGORITHM);
     }
 
-    public boolean validate(String jwt) {
+    public boolean isValid(String jwt) {
         try {
             JWT.require(ALGORITHM)
                     .build()
