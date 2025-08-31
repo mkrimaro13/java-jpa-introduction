@@ -8,7 +8,7 @@ spring:
     username: marimaro
     password: 1234
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
     properties:

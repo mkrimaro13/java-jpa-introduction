@@ -15,11 +15,11 @@ public class AuditPizzaListener {
     // Se ejecuta luego de ejecutar un SELECT y cargar la información.
     @PostLoad
     public void onPostLoad(Pizza pizza){
-        System.out.println("POST LOAD");
+        // System.out.println("POST LOAD");
         // No se puede hacer this.currentValue = pizza porque Java sobrecargaría la ubicación en memoria del objeto
         this.currentValue = SerializationUtils.clone(pizza);
 
-        System.out.println(pizza.toString());
+        //System.out.println(pizza.toString());
     }
 
     // Este método se ejecuta luego de persistir (crear) o actualizar un registro en la BD.
